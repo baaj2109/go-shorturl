@@ -1,26 +1,19 @@
 package router
 
 import (
-	"github.com/baaj2109/shorturl/controller.go"
-	"github.com/baaj2109/shorturl/middleware"
-	"github.com/gin-contrib/cors"
+	"github.com/baaj2109/shorturl/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
 func InitRouter() *gin.Engine {
 	router := gin.Default()
-	config := cors.DefaultConfig()
-	config.AllowCredentials = true
-	config.AllowOrigins = []string{
-		"http://localhost:8080",
-	}
-	config.AddAllowHeaders("Authorization", "Content-Type")
-	config.AddAllowMethods("GET", "POST")
-	router.Use(cors.New(config))
 
-	versionRouter := router.Group("/v1")
-	versionRouter.GET("/:url_id/", middleware.Cache(), controller.GetUrlHandler)
-	versionRouter.POST("/urls/", controller.CreateUrlHandler)
-
+	router.Use(gin.Recovery())
+	// router.Use(middlewares.Request()).StaticFile("/", "./public").GET("/:code", controller.Path)
+	v1 := router.Group("/v1")
+	v1.Use(middlewares.Request())
+	// v1.POST("/create", controller.Create)
+	// v1.POST("/multicreate", controller.multicreate)
+	// v1.POST("/query", controller.Query)
 	return router
 }
