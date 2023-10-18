@@ -11,7 +11,7 @@ var (
 	Config *viper.Viper
 )
 
-func init() {
+func InitConfig() {
 	Config = ParseConfig("./config/config.yaml")
 }
 

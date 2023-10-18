@@ -13,7 +13,12 @@ import (
 var DB *gorm.DB
 var Redis *redis.Client
 
-func openDB() (*sql.DB, error) {
+func InitDB() {
+	InitMysql()
+	InitRedis()
+}
+
+func InitMysql() (*sql.DB, error) {
 	username := Config.GetString("mysql.username")
 	password := Config.GetString("mysql.password")
 	host := Config.GetString("mysql.host")

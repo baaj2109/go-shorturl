@@ -82,6 +82,9 @@ func (s *service) ResotreUrl(code string) (string, error) {
 			return "", errors.New("invalid code")
 		}
 		originalUrl = uc.Url
+		go func() {
+			s.cCache.Add(code, originalUrl)
+		}()
 	}
 	// click increase
 	go func() {
